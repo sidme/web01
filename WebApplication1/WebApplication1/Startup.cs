@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AppBusinessProject;
+using AppBusinessProject.Interfaces;
 using AppModelProject;
+using AppModelProject.Interfaces;
+using AppModelProject.Repository;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -27,6 +30,10 @@ namespace WebApplication1
             services.AddDbContext<AppDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddTransient<IExpenseRepository, MockExpenseRepository>();
+
+            services.AddTransient<ICustomerRepository, MockCustomerRepository>();
+
+            services.AddTransient<ICustomerLogic, CustomerLogic>();
 
             services.AddMvc();
         }

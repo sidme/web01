@@ -14,5 +14,7 @@ namespace AppModelProject
 
         public string Description { get; set; }
 
+        public int CustomerId { get; set; }
+
     }
 }

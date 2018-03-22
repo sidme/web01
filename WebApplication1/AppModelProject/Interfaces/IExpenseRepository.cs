@@ -1,11 +1,10 @@
-﻿using AppModelProject;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace AppBusinessProject
+namespace AppModelProject.Interfaces
 {
-    public interface IExpenseRepository : IDisposable
+    public interface IExpenseRepository
     {
         IEnumerable<Expense> GetExpense();
         Expense GetExpenseByID(int expenseId);

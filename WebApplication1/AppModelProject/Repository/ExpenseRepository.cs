@@ -1,53 +1,52 @@
-﻿using System;
+﻿using AppModelProject.Interfaces;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
-using AppModelProject;
 
-namespace AppBusinessProject
+namespace AppModelProject.Repository
 {
-    public class MockExpenseRepository : IExpenseRepository
+    public class ExpenseRepository : IExpenseRepository
     {
         private readonly AppDbContext _appDbContext;
 
-        public MockExpenseRepository(AppDbContext appDbContext)
+        public ExpenseRepository(AppDbContext appDbContext)
         {
             _appDbContext = appDbContext;
         }
 
         public void DeleteExpense(int expenseID)
         {
-            throw new NotImplementedException();
+            var _expense = GetExpenseByID(expenseID);
+            if (_expense != null)
+                _appDbContext.Entry(_expense).State = Microsoft.EntityFrameworkCore.EntityState.Deleted;
         }
 
 
 
         public IEnumerable<Expense> GetExpense()
         {
-            return new List<Expense>()
-            {
-                new Expense{Amount=100.00M, Description = "Groceries", ExpenseDateTime = new DateTime(2018,02,01), ExpenseId=1, PaidTo="Woolworth"},
-                new Expense{Amount=70.00M, Description = "Petrol", ExpenseDateTime = new DateTime(2018,02,02), ExpenseId=2, PaidTo="Coles Express"},
-            };
+            return _appDbContext.Expenses.ToList();
         }
 
         public Expense GetExpenseByID(int expenseId)
         {
-            throw new NotImplementedException();
+            return _appDbContext.Expenses.FirstOrDefault(x => x.ExpenseId == expenseId);
         }
 
         public void InsertExpense(Expense expense)
         {
-            throw new NotImplementedException();
+            _appDbContext.Entry(expense).State = Microsoft.EntityFrameworkCore.EntityState.Added;
         }
 
         public void Save()
         {
-            throw new NotImplementedException();
+            _appDbContext.SaveChanges();
         }
 
         public void UpdateExpense(Expense expense)
         {
-            throw new NotImplementedException();
+            _appDbContext.Entry(expense).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
         }
 
         private bool disposed = false;
@@ -69,5 +68,7 @@ namespace AppBusinessProject
             Dispose(true);
             GC.SuppressFinalize(this);
         }
+
     }
+
 }

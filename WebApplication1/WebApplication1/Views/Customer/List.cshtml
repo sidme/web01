@@ -1,0 +1,36 @@
+﻿@model IEnumerable<AppModelProject.DTO.CustomerDTO>
+
+@{
+    ViewData["Title"] = "List";
+}
+
+<h2>View</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.CustomerId)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.CustomerName)
+                </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.CustomerId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CustomerName)
+            </td>
+            <td>
+                <a asp-controller="Customer" asp-action="ListOfExpensesByCustomerId" asp-route-customerId="@item.CustomerId">Expenses</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
